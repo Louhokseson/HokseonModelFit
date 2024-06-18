@@ -3,8 +3,11 @@ authors = ["Hokseon"]
 
 [deps]
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
 OptimizationOptimJL = "36348300-93cb-4f02-beb5-3c3902f8871e"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
 DrWatson = "2.15.0"
