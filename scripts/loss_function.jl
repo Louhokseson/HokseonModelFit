@@ -26,18 +26,23 @@ function Hokseon_ground(params::Dict{Symbol,Float64}, x::Vector{Float64})
     return groundstate
 end
 
- groundstate = Hokseon_ground(hokseon_model_initial_params, x)
+Loss_DFT_groundstate(groundstate) = sqrt.(sum((DFT_austripped .- groundstate).^2) * ustrip(auconvert(u"eV", 1))^2 ./ 200)
 
 
-## Polynomials should covengre to the groundstate when x_ang goes to 5Å
-C = ustrip(auconvert(u"eV", groundstate[end])) - DFT_polynomial(x_ang[end])
-DFT_polynomial = DFT_polynomial .+ C
 
-DFT_austripped  = austrip.(DFT_polynomial.(x_ang).*u"eV")
+function RMSE_DFT(params,DFT_polynomial)
 
-Loss_DFT(groundstate) = sum((DFT_austripped .- groundstate).^2);
+    groundstate = Hokseon_ground(params,x)
 
+    C = ustrip(auconvert(u"eV", groundstate[end])) - DFT_polynomial(x_ang[end])
 
-#println(Loss_DFT(DFT_austripped,groundstate))
+    DFT_polynomial = DFT_polynomial .+ C
+
+    DFT_austripped  = austrip.(DFT_polynomial.(x_ang).*u"eV")
+
+    return sqrt.(sum((DFT_austripped .- groundstate).^2) * ustrip(auconvert(u"eV", 1))^2 ./ 200)
+end
+
+RMSE_DFT(hokseon_model_initial_params,DFT_polynomial)
 
 

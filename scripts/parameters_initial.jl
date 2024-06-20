@@ -3,7 +3,7 @@ using DrWatson
 using Unitful, UnitfulAtomic
 
 
-hokseon_model_initial_params = Dict{Symbol,Float64}(
+global hokseon_model_initial_params = Dict{Symbol,Float64}(
     ## Hokseon Morse parameters ##
     :Dₑ => austrip(1.761u"eV"), 
     :a => austrip(1.92u"Å^-1"), 
@@ -25,9 +25,9 @@ hokseon_model_initial_params = Dict{Symbol,Float64}(
 )
 
 
-general_params = Dict{String,Any}(
+global general_params = Dict{String,Any}(
 
-    "x_ang" => range(0.0, 5, length=200),
+    "x_ang" => range(0.8, 6, length=200),
     "bandgap" => 0.49,
     "centre" => 0.0,
     "discretisation"=>:GapGaussLegendre,
