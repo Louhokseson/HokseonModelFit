@@ -30,9 +30,13 @@ Loss_DFT_groundstate(groundstate) = sqrt.(sum((DFT_austripped .- groundstate).^2
 
 
 
-function RMSE_DFT(params,DFT_polynomial)
+function RMSE_DFT(values,DFT_polynomial)
 
-    groundstate = Hokseon_ground(params,x)
+    symbols = [:x̃, :k, :x₀′, :Γ, :c, :c′, :q, :a, :ã, :x₀, :L, :Dₑ, :a′]
+
+    parms_dict = Dict{Symbol,Float64}(zip(symbols, values))
+
+    groundstate = Hokseon_ground(parms_dict,x)
 
     C = ustrip(auconvert(u"eV", groundstate[end])) - DFT_polynomial(x_ang[end])
 
@@ -40,9 +44,8 @@ function RMSE_DFT(params,DFT_polynomial)
 
     DFT_austripped  = austrip.(DFT_polynomial.(x_ang).*u"eV")
 
-    return sqrt.(sum((DFT_austripped .- groundstate).^2) * ustrip(auconvert(u"eV", 1))^2 ./ 200)
+    return sqrt.(sum((DFT_austripped .- groundstate).^2) * ustrip(auconvert(u"eV", 1))^2 ./ 200), groundstate, DFT_austripped
 end
 
-RMSE_DFT(hokseon_model_initial_params,DFT_polynomial)
 
 
